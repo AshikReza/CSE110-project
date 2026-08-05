@@ -125,6 +125,9 @@ class Parser {
         } catch (IllegalArgumentException iae) {
             throw new InvalidPromptFormatException(
                     "Could not build question \"" + questionText + "\": " + iae.getMessage());
+        } catch (InvalidQuestionTextException iqte) {
+            throw new InvalidPromptFormatException(
+                    "Invalid question text in block \"" + questionText + "\": " + iqte.getMessage());
         }
     }
 

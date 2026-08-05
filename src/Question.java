@@ -17,9 +17,9 @@ public abstract class Question implements Serializable {
     protected String explanation;
     protected boolean bookmarked;
 
-    public Question(String questionText, String explanation) {
+    public Question(String questionText, String explanation) throws InvalidQuestionTextException {
         if (questionText == null || questionText.isBlank()) {
-            throw new IllegalArgumentException("Question text cannot be empty.");
+            throw new InvalidQuestionTextException("Question text cannot be empty.");
         }
         this.questionText = questionText;
         this.explanation = (explanation == null) ? "" : explanation;
@@ -32,7 +32,12 @@ public abstract class Question implements Serializable {
     public abstract String showAnswer();
 
     public String getQuestionText() { return questionText; }
-    public void setQuestionText(String t) { this.questionText = t; }
+    public void setQuestionText(String t) throws InvalidQuestionTextException {
+        if (t == null || t.isBlank()) {
+            throw new InvalidQuestionTextException("Question text cannot be set to empty.");
+        }
+        this.questionText = t;
+    }
     public String getExplanation() { return explanation; }
     public boolean isBookmarked() { return bookmarked; }
     public void setBookmarked(boolean b) { this.bookmarked = b; }
@@ -50,7 +55,8 @@ class MCQQuestion extends Question {
     private char correctOption;
 
     public MCQQuestion(String questionText, String explanation,
-                        String a, String b, String c, String d, char correct) {
+                        String a, String b, String c, String d, char correct)
+            throws InvalidQuestionTextException {
         super(questionText, explanation);
         optionA = a;
         optionB = b;
@@ -91,7 +97,8 @@ class TrueFalseQuestion extends Question {
 
     private boolean correctAnswer;
 
-    public TrueFalseQuestion(String questionText, String explanation, boolean correctAnswer) {
+    public TrueFalseQuestion(String questionText, String explanation, boolean correctAnswer)
+            throws InvalidQuestionTextException {
         super(questionText, explanation);
         this.correctAnswer = correctAnswer;
     }
@@ -121,10 +128,11 @@ class FillBlankQuestion extends Question {
 
     private String correctAnswer;
 
-    public FillBlankQuestion(String questionText, String explanation, String correctAnswer) {
+    public FillBlankQuestion(String questionText, String explanation, String correctAnswer)
+            throws InvalidQuestionTextException {
         super(questionText, explanation);
         if (correctAnswer == null || correctAnswer.isBlank()) {
-            throw new IllegalArgumentException("Fill-in-the-blank answer cannot be empty.");
+            throw new InvalidQuestionTextException("Fill-in-the-blank answer cannot be empty.");
         }
         this.correctAnswer = correctAnswer;
     }

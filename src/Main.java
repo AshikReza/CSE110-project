@@ -118,7 +118,12 @@ public class Main {
     // ---------- Study / Quiz / Search / Edit / Delete / Bookmark ----------
 
     private static void studyFlashcards() {
-        if (deck.size() == 0) { System.out.println("Deck is empty.\n"); return; }
+        try {
+            requireNonEmptyDeck();
+        } catch (EmptyDeckException e) {
+            System.out.println(e.getMessage() + "\n");
+            return;
+        }
         for (int i = 0; i < deck.size(); i++) {
             Question q = deck.getQuestions().get(i);
             System.out.println("\nCard " + (i + 1) + "/" + deck.size() + ":");
@@ -134,7 +139,12 @@ public class Main {
     }
 
     private static void startQuiz() {
-        if (deck.size() == 0) { System.out.println("Deck is empty.\n"); return; }
+        try {
+            requireNonEmptyDeck();
+        } catch (EmptyDeckException e) {
+            System.out.println(e.getMessage() + "\n");
+            return;
+        }
         int score = 0;
         for (Question q : deck.getQuestions()) {
             System.out.println("\n" + q.display());
@@ -176,7 +186,7 @@ public class Main {
         if (!newText.isBlank()) {
             try {
                 q.setQuestionText(newText.trim());
-            } catch (IllegalArgumentException e) {
+            } catch (InvalidQuestionTextException e) {
                 System.out.println("Invalid edit: " + e.getMessage());
             }
         }
@@ -199,7 +209,12 @@ public class Main {
     }
 
     private static int pickCardIndex() {
-        if (deck.size() == 0) { System.out.println("Deck is empty.\n"); return -1; }
+        try {
+            requireNonEmptyDeck();
+        } catch (EmptyDeckException e) {
+            System.out.println(e.getMessage() + "\n");
+            return -1;
+        }
         for (int i = 0; i < deck.size(); i++) {
             System.out.println((i + 1) + ". " + deck.getQuestions().get(i));
         }
@@ -214,6 +229,13 @@ public class Main {
         } catch (NumberFormatException e) {
             System.out.println("Not a valid number.\n");
             return -1;
+        }
+    }
+
+    /** Throws EmptyDeckException if the deck has no cards. */
+    private static void requireNonEmptyDeck() throws EmptyDeckException {
+        if (deck.size() == 0) {
+            throw new EmptyDeckException();
         }
     }
 
