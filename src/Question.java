@@ -11,7 +11,7 @@ import java.io.Serializable;
  *        |-- TrueFalseQuestion
  *        |-- FillBlankQuestion
  */
-public abstract class Question implements Serializable {
+public abstract class Question implements Serializable, Reviewable {
 
     protected String questionText;
     protected String explanation;
