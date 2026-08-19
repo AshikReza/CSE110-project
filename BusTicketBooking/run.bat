@@ -1,35 +1,19 @@
 @echo off
-title Bus Ticket Booking System
-color 0A
+echo ============================================
+echo   Bus Ticket Booking System - GUI Launcher
+echo ============================================
 
-echo.
-echo  =============================================
-echo    BUS TICKET BOOKING SYSTEM — Java Project
-echo  =============================================
-echo.
-echo  [1/2] Compiling Java files...
-echo.
+cd /d "%~dp0"
 
-javac -encoding UTF-8 Vehicle.java Bus.java Ticket.java BookingSystem.java
-
-if %errorlevel% neq 0 (
-    echo.
-    echo  [ERROR] Compilation failed. Make sure Java JDK is installed.
-    echo  Download from: https://www.oracle.com/java/technologies/downloads/
-    echo.
+echo Compiling...
+javac -encoding UTF-8 *.java
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Compilation failed!
     pause
     exit /b 1
 )
 
-echo  [2/2] Compilation successful! Starting application...
-echo.
-echo  =============================================
-echo.
+echo Starting application...
+java -Dfile.encoding=UTF-8 BookingSystem
 
-java BookingSystem
-
-echo.
-echo  =============================================
-echo    Session ended. Press any key to close.
-echo  =============================================
-pause > nul
+pause

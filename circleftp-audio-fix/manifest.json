@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "CircleFTP Audio Fix",
+  "version": "1.0.0",
+  "description": "Fixes audio (AC-3/DTS/MKV codec) issues on circleftp.net by providing an 'Open in VLC' button and video URL tools.",
+  "icons": {
+    "16": "icon128.png",
+    "32": "icon128.png",
+    "48": "icon128.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "*://*.circleftp.net/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.circleftp.net/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon128.png",
+      "32": "icon128.png",
+      "48": "icon128.png",
+      "128": "icon128.png"
+    },
+    "default_title": "CircleFTP Audio Fix"
+  }
+}
